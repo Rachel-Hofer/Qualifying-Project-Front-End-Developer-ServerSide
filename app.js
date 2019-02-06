@@ -71,14 +71,14 @@ app.locals.title = 'Dowell Systems - Employee Information';
 // CORS SETTINGS:
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:5000']
+  origin: ['http://localhost:5000', 'http://localhost:3000']
 }));
 
 
 // ROUTE LINKS:
 
 const index = require('./routes/index');
-app.use('/', index);
+app.use('/api', index);
 
 
 module.exports = app;
