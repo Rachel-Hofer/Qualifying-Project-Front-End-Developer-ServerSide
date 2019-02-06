@@ -64,7 +64,7 @@ router.get('/staff/:id', (req, res, next) => {
     return;
   }
 
-  Project.findById(req.params.id)
+  Staff.findById(req.params.id)
     .then(response => {
       res.status(200).json(response);
     })
@@ -75,20 +75,34 @@ router.get('/staff/:id', (req, res, next) => {
 
 
 // UPDATE SPECIFIC STAFF MEMBER (crUd)
-// /api/projects/:id	
+// /api/edit-staff/:id	
 // PUT	
 // Request body: JSON	
 // Edits the specified staff member
 
-router.put('/staff/:id', (req, res, next) => {
+router.post('/edit-staff/:id', upload.single('file'), (req, res, next) => {
 
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    res.status(400).json({ message: 'Specified id is not valid' });
-    return;
-  }
+  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  //   res.status(400).json({ message: 'Specified id is not valid' });
+  //   return;
+  // }
 
-  Staff.findByIdAndUpdate(req.params.id, req.body)
-    .then(() => {
+  Staff.findByIdAndUpdate(req.params.id, {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    age: req.body.age,
+    phoneNumber: req.body.phoneNumber,
+    color: req.body.color,
+    birthday: req.body.birthday,
+    email: req.body.email,
+    file: req.file.url
+  })
+
+    .then((updatedUser) => {
+      if (updatedUser === null) {
+        res.json({ message: 'sorry we could not find this user' })
+        return;
+      }
       res.json({ message: `Staff Member with ${req.params.id} has been updated successfully.` });
     })
     .catch(err => {
@@ -98,12 +112,12 @@ router.put('/staff/:id', (req, res, next) => {
 
 
 // DELETE STAFF MEMBER (cruD)
-// /api/projects/:id	
+// /api/delete-staff/:id	
 // DELETE	
 // Request body: (empty)	
 // Deletes the specified staff member
 
-router.delete('/staff/:id', (req, res, next) => {
+router.delete('/delete-staff/:id', (req, res, next) => {
 
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });
