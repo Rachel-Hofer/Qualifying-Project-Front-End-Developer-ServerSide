@@ -10,10 +10,11 @@ const logger = require('morgan');
 const path = require('path');
 
 const cors = require('cors');
-// const session       = require('express-session');
-// const passport      = require('passport');
 
-// require('./configs/passport');
+// const session       = require('express-session');
+
+
+require('./config/cloud');
 
 
 mongoose

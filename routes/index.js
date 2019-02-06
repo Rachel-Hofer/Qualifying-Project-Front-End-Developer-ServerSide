@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Staff = require('../models/staff-model')
+const Staff = require('../models/StaffModel')
 
+const upload = require('../config/cloud');
 
 // SHOW ALL STAFF (cRud)
 // /api/all-staff	
@@ -26,7 +27,7 @@ router.get('/all-staff', (req, res, next) => {
 // Request body: JSON	
 // Adds a new staff member
 
-router.post('/create-staff', (req, res, next) => {
+router.post('/create-staff', upload.single('file'), (req, res, next) => {
 
   Staff.create({
 
@@ -37,7 +38,7 @@ router.post('/create-staff', (req, res, next) => {
     color: req.body.color,
     birthday: req.body.birthday,
     email: req.body.email,
-    file: req.body.file
+    file: req.file.url
 
   })
 
