@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Staff = require('../models/StaffModel')
-
+const mongoose = require('mongoose');
 const upload = require('../config/cloud');
 
 // SHOW ALL STAFF (cRud)
@@ -87,7 +87,7 @@ router.put('/staff/:id', (req, res, next) => {
     return;
   }
 
-  Project.findByIdAndUpdate(req.params.id, req.body)
+  Staff.findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
       res.json({ message: `Staff Member with ${req.params.id} has been updated successfully.` });
     })
@@ -110,7 +110,7 @@ router.delete('/staff/:id', (req, res, next) => {
     return;
   }
 
-  Project.findByIdAndRemove(req.params.id)
+  Staff.findByIdAndRemove(req.params.id)
     .then(() => {
       res.json({ message: `Staff Member with ${req.params.id} has been successfully removed .` });
     })
