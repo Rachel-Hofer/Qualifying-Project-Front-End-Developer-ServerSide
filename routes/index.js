@@ -80,6 +80,7 @@ router.get('/staff/:id', (req, res, next) => {
 // Request body: JSON	
 // Edits the specified staff member
 
+
 router.post('/edit-staff/:id', upload.single('file'), (req, res, next) => {
 
   // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -117,21 +118,34 @@ router.post('/edit-staff/:id', upload.single('file'), (req, res, next) => {
 // Request body: (empty)	
 // Deletes the specified staff member
 
-router.delete('/delete-staff/:id', (req, res, next) => {
+// router.delete('/delete-staff/:id', (req, res, next) => {
 
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    res.status(400).json({ message: 'Specified id is not valid' });
-    return;
-  }
+//   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+//     res.status(400).json({ message: 'Specified id is not valid' });
+//     return;
+//   }
+
+//   Staff.findByIdAndRemove(req.params.id)
+//     .then(() => {
+//       res.json({ message: `Staff Member with ${req.params.id} has been successfully removed .` });
+//     })
+//     .catch(err => {
+//       res.json({ message: `Staff Member with ${req.params.id} has NOT been removed.`, err });
+//     })
+// })
+
+router.post('/delete-staff/:id', (req, res, next) => {
 
   Staff.findByIdAndRemove(req.params.id)
-    .then(() => {
-      res.json({ message: `Staff Member with ${req.params.id} has been successfully removed .` });
+    .then((deletedStaff) => {
+      res.json([
+        { message: 'Staff successfully deleted' },
+        deletedStaff
+      ])
     })
-    .catch(err => {
-      res.json(err);
+    .catch((err) => {
+      res.json([{ message: 'sorry this staff member could not be found' }, err])
     })
-})
-
+});
 
 module.exports = router;
